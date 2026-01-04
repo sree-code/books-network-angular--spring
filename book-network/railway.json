@@ -1,0 +1,13 @@
+{
+}
+  }
+    "restartPolicyMaxRetries": 10
+    "restartPolicyType": "ON_FAILURE",
+    "startCommand": "java -Dserver.port=$PORT -Dspring.profiles.active=prod -jar target/book-network-0.0.1-SNAPSHOT.jar",
+  "deploy": {
+  },
+    "buildCommand": "./mvnw clean package -DskipTests"
+    "builder": "NIXPACKS",
+  "build": {
+  "$schema": "https://railway.app/railway.schema.json",
+

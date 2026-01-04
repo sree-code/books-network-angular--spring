@@ -1,0 +1,19 @@
+{
+  "version": 2,
+  "name": "book-social-network-ui",
+  "buildCommand": "npm run build -- --configuration=production",
+  "outputDirectory": "dist/book-network-ui",
+  "framework": "angular",
+  "installCommand": "npm install",
+  "devCommand": "npm start",
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ],
+  "env": {
+    "NODE_VERSION": "18"
+  }
+}
+

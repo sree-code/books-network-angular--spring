@@ -92,9 +92,24 @@ To get started with the Book Social Network project, follow the setup instructio
 - [Backend Setup Instructions](/book-network/README.md)
 - [Frontend Setup Instructions](book-network-ui/README.md)
 
+## Deployment
+
+Ready to deploy your application to production?
+
+- **Quick Deployment**: See [QUICK_DEPLOY.md](QUICK_DEPLOY.md) for step-by-step instructions
+- **Detailed Guide**: See [DEPLOYMENT_GUIDE.md](DEPLOYMENT_GUIDE.md) for comprehensive deployment documentation
+- **Deployment Script**: Run `./deploy.sh` for automated deployment
+
+### Recommended Deployment Stack
+- **Frontend**: Vercel (Free)
+- **Backend**: Railway or Render ($5-20/month)
+- **Database**: Railway PostgreSQL (included)
+- **Authentication**: Keycloak Cloud
+
 ## Contributors
 
-- [gorasr6](https://github.com/gorasr6)
+- [gorasr6](https://github.com/gorasr6) - Original author
+- [sree-code](https://github.com/sree-code) - Maintainer
 
 ## Acknowledgments
 

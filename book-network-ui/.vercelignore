@@ -1,0 +1,23 @@
+# Dependencies
+node_modules
+npm-debug.log*
+
+# Testing
+coverage
+*.spec.ts
+
+# Build
+.angular
+e2e
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# Misc
+.DS_Store
+Thumbs.db
+
