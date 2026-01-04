@@ -1,0 +1,67 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ----------------------< com.gorasr6:book-network >----------------------
+[INFO] Building book-network-api 0.0.1-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] >>> spring-boot:3.2.2:run (default-cli) > test-compile @ book-network >>>
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ book-network ---
+[INFO] Copying 2 resources from src/main/resources to target/classes
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.11.0:compile (default-compile) @ book-network ---
+[INFO] Changes detected - recompiling the module! :source
+[INFO] Compiling 49 source files with javac [debug release 17] to target/classes
+[INFO] /Users/sreesumanthgorantla/Desktop/2026/book-social-network-main/book-network/src/main/java/com/gorasr6/book/security/KeycloakJwtAuthenticationConverter.java: /Users/sreesumanthgorantla/Desktop/2026/book-social-network-main/book-network/src/main/java/com/gorasr6/book/security/KeycloakJwtAuthenticationConverter.java uses unchecked or unsafe operations.
+[INFO] /Users/sreesumanthgorantla/Desktop/2026/book-social-network-main/book-network/src/main/java/com/gorasr6/book/security/KeycloakJwtAuthenticationConverter.java: Recompile with -Xlint:unchecked for details.
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ book-network ---
+[INFO] skip non existing resourceDirectory /Users/sreesumanthgorantla/Desktop/2026/book-social-network-main/book-network/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.11.0:testCompile (default-testCompile) @ book-network ---
+[INFO] Changes detected - recompiling the module! :dependency
+[INFO] Compiling 1 source file with javac [debug release 17] to target/test-classes
+[INFO] 
+[INFO] <<< spring-boot:3.2.2:run (default-cli) < test-compile @ book-network <<<
+[INFO] 
+[INFO] 
+[INFO] --- spring-boot:3.2.2:run (default-cli) @ book-network ---
+[INFO] Attaching agents: []
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.2)
+
+2026-01-04T14:53:31.887-06:00  INFO 60985 --- [           main] c.g.book.BookNetworkApiApplication       : Starting BookNetworkApiApplication using Java 19.0.1 with PID 60985 (/Users/sreesumanthgorantla/Desktop/2026/book-social-network-main/book-network/target/classes started by sreesumanthgorantla in /Users/sreesumanthgorantla/Desktop/2026/book-social-network-main/book-network)
+2026-01-04T14:53:31.888-06:00  INFO 60985 --- [           main] c.g.book.BookNetworkApiApplication       : The following 1 profile is active: "dev"
+2026-01-04T14:53:32.274-06:00  INFO 60985 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-01-04T14:53:32.303-06:00  INFO 60985 --- [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 26 ms. Found 3 JPA repository interfaces.
+2026-01-04T14:53:32.711-06:00  INFO 60985 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8088 (http)
+2026-01-04T14:53:32.720-06:00  INFO 60985 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-01-04T14:53:32.720-06:00  INFO 60985 --- [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.18]
+2026-01-04T14:53:32.755-06:00  INFO 60985 --- [           main] o.a.c.c.C.[.[localhost].[/api/v1]        : Initializing Spring embedded WebApplicationContext
+2026-01-04T14:53:32.756-06:00  INFO 60985 --- [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 848 ms
+2026-01-04T14:53:32.863-06:00  INFO 60985 --- [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-01-04T14:53:32.899-06:00  INFO 60985 --- [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.4.1.Final
+2026-01-04T14:53:32.917-06:00  INFO 60985 --- [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-01-04T14:53:33.031-06:00  INFO 60985 --- [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-01-04T14:53:33.050-06:00  INFO 60985 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-01-04T14:53:33.168-06:00  INFO 60985 --- [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@105dc04d
+2026-01-04T14:53:33.169-06:00  INFO 60985 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-01-04T14:53:33.192-06:00  WARN 60985 --- [           main] org.hibernate.orm.deprecation            : HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-01-04T14:53:33.778-06:00  INFO 60985 --- [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-01-04T14:53:33.858-06:00  INFO 60985 --- [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-01-04T14:53:33.990-06:00  INFO 60985 --- [           main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-01-04T14:53:34.365-06:00  WARN 60985 --- [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-01-04T14:53:34.572-06:00  INFO 60985 --- [           main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@6f997702, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@5f45abe6, org.springframework.security.web.context.SecurityContextHolderFilter@2176d934, org.springframework.security.web.header.HeaderWriterFilter@229f3c5d, org.springframework.web.filter.CorsFilter@f2b90fc, org.springframework.security.web.authentication.logout.LogoutFilter@3be4e71c, org.springframework.security.oauth2.server.resource.web.authentication.BearerTokenAuthenticationFilter@392a091, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@334c80be, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@3c1fe350, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@49c51eb7, org.springframework.security.web.access.ExceptionTranslationFilter@7de1cc9f, org.springframework.security.web.access.intercept.AuthorizationFilter@36f291c7]
+2026-01-04T14:53:34.815-06:00  INFO 60985 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8088 (http) with context path '/api/v1'
+2026-01-04T14:53:34.821-06:00  INFO 60985 --- [           main] c.g.book.BookNetworkApiApplication       : Started BookNetworkApiApplication in 3.115 seconds (process running for 3.256)
+2026-01-04T14:54:08.706-06:00  INFO 60985 --- [ionShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-01-04T14:54:08.714-06:00  INFO 60985 --- [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2026-01-04T14:54:08.717-06:00  INFO 60985 --- [ionShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
