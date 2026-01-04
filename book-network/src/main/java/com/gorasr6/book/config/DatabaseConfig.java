@@ -59,20 +59,37 @@ public class DatabaseConfig {
                 int port = dbUri.getPort();
                 String path = dbUri.getPath();
 
-                // Validate port
+                // Handle missing port - default to 5432 (standard PostgreSQL port)
                 if (port == -1) {
-                    log.error("DATABASE_URL is missing port number!");
-                    log.error("Current URL format appears incomplete");
-                    log.error("Expected format: postgresql://user:pass@host:5432/database");
-                    log.error("Your URL format: postgresql://user:pass@host/database (missing :5432)");
-                    log.error("");
-                    log.error("SOLUTION: Get the COMPLETE Internal Database URL from Render:");
-                    log.error("1. Go to Render Dashboard → PostgreSQL");
-                    log.error("2. Click on your database");
-                    log.error("3. Scroll to 'Connections' section");
-                    log.error("4. Copy the FULL 'Internal Database URL' including :5432");
-                    log.error("5. Set it as DATABASE_URL in your web service");
-                    throw new RuntimeException("DATABASE_URL is missing port number. Please use the complete Internal Database URL from Render.");
+                    log.warn("DATABASE_URL is missing port number, defaulting to 5432");
+                    log.warn("Current URL format appears incomplete - missing :5432");
+                    log.warn("Expected format: postgresql://user:pass@host:5432/database");
+                    log.warn("Your URL format: postgresql://user:pass@host/database");
+                    log.warn("");
+                    log.warn("Using default PostgreSQL port 5432 as fallback...");
+                    log.warn("For better configuration, get the COMPLETE Internal Database URL from Render:");
+                    log.warn("1. Go to Render Dashboard → PostgreSQL");
+                    log.warn("2. Click on your database");
+                    log.warn("3. Scroll to 'Connections' section");
+                    log.warn("4. Copy the FULL 'Internal Database URL' including :5432");
+                    log.warn("5. Set it as DATABASE_URL in your web service");
+                    port = 5432; // Default PostgreSQL port
+                }
+
+                // Also check if hostname is complete (should include .render.com suffix)
+                if (!host.contains(".")) {
+                    log.warn("DATABASE_URL hostname appears incomplete: {}", host);
+                    log.warn("Expected format: dpg-xxxxx-a.REGION-postgres.render.com");
+                    log.warn("Your format: {}", host);
+                    log.warn("Attempting to construct full hostname...");
+
+                    // Try to construct full hostname if it's a Render database
+                    if (host.startsWith("dpg-") && !host.contains(".render.com")) {
+                        // Assume Oregon region as default (most common)
+                        String fullHost = host + ".oregon-postgres.render.com";
+                        log.warn("Constructed hostname: {}", fullHost);
+                        host = fullHost;
+                    }
                 }
 
                 String jdbcUrl = "jdbc:postgresql://" + host + ':' + port + path;
