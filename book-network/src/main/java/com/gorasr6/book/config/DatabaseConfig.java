@@ -40,11 +40,40 @@ public class DatabaseConfig {
             // Convert Render's postgresql:// format to jdbc:postgresql://
             try {
                 URI dbUri = new URI(databaseUrl);
-                String username = dbUri.getUserInfo().split(":")[0];
-                String password = dbUri.getUserInfo().split(":")[1];
+
+                if (dbUri.getUserInfo() == null) {
+                    log.error("DATABASE_URL is missing username/password");
+                    log.error("Format should be: postgresql://username:password@host:port/database");
+                    throw new RuntimeException("Invalid DATABASE_URL: missing credentials");
+                }
+
+                String[] userInfo = dbUri.getUserInfo().split(":");
+                if (userInfo.length < 2) {
+                    log.error("DATABASE_URL is missing password");
+                    throw new RuntimeException("Invalid DATABASE_URL: missing password");
+                }
+
+                String username = userInfo[0];
+                String password = userInfo[1];
                 String host = dbUri.getHost();
                 int port = dbUri.getPort();
                 String path = dbUri.getPath();
+
+                // Validate port
+                if (port == -1) {
+                    log.error("DATABASE_URL is missing port number!");
+                    log.error("Current URL format appears incomplete");
+                    log.error("Expected format: postgresql://user:pass@host:5432/database");
+                    log.error("Your URL format: postgresql://user:pass@host/database (missing :5432)");
+                    log.error("");
+                    log.error("SOLUTION: Get the COMPLETE Internal Database URL from Render:");
+                    log.error("1. Go to Render Dashboard → PostgreSQL");
+                    log.error("2. Click on your database");
+                    log.error("3. Scroll to 'Connections' section");
+                    log.error("4. Copy the FULL 'Internal Database URL' including :5432");
+                    log.error("5. Set it as DATABASE_URL in your web service");
+                    throw new RuntimeException("DATABASE_URL is missing port number. Please use the complete Internal Database URL from Render.");
+                }
 
                 String jdbcUrl = "jdbc:postgresql://" + host + ':' + port + path;
 
