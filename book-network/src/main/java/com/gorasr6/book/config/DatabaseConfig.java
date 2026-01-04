@@ -1,5 +1,9 @@
 package com.gorasr6.book.config;
 
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,43 +21,103 @@ import java.net.URISyntaxException;
 @Profile("prod")
 public class DatabaseConfig {
 
+    private static final Logger log = LoggerFactory.getLogger(DatabaseConfig.class);
+
     @Bean
     public DataSource dataSource() {
         String databaseUrl = System.getenv("DATABASE_URL");
 
-        if (databaseUrl != null && databaseUrl.startsWith("postgresql://")) {
+        log.info("=== DATABASE CONFIGURATION ===");
+        log.info("DATABASE_URL is {}", databaseUrl != null ? "SET" : "NOT SET");
+
+        if (databaseUrl == null || databaseUrl.isEmpty()) {
+            log.error("DATABASE_URL environment variable is not set!");
+            log.error("Please set DATABASE_URL in Render dashboard -> Environment tab");
+            throw new RuntimeException("DATABASE_URL environment variable is required but not set");
+        }
+
+        if (databaseUrl.startsWith("postgresql://")) {
             // Convert Render's postgresql:// format to jdbc:postgresql://
             try {
                 URI dbUri = new URI(databaseUrl);
                 String username = dbUri.getUserInfo().split(":")[0];
                 String password = dbUri.getUserInfo().split(":")[1];
-                String jdbcUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
+                String host = dbUri.getHost();
+                int port = dbUri.getPort();
+                String path = dbUri.getPath();
 
+                String jdbcUrl = "jdbc:postgresql://" + host + ':' + port + path;
+
+                // Add SSL and other parameters for Render
                 if (dbUri.getQuery() != null) {
                     jdbcUrl += "?" + dbUri.getQuery();
+                } else {
+                    // Render requires SSL
+                    jdbcUrl += "?sslmode=require";
                 }
 
-                return DataSourceBuilder
-                        .create()
-                        .url(jdbcUrl)
-                        .username(username)
-                        .password(password)
-                        .driverClassName("org.postgresql.Driver")
-                        .build();
+                log.info("Converted DATABASE_URL:");
+                log.info("  Host: {}", host);
+                log.info("  Port: {}", port);
+                log.info("  Database: {}", path);
+                log.info("  Username: {}", username);
+                log.info("  JDBC URL: {}", jdbcUrl.replaceAll("\\?.*", "?[params]"));
+
+                // Use HikariCP with proper configuration for cloud environments
+                HikariConfig config = new HikariConfig();
+                config.setJdbcUrl(jdbcUrl);
+                config.setUsername(username);
+                config.setPassword(password);
+                config.setDriverClassName("org.postgresql.Driver");
+
+                // Connection pool settings for cloud databases
+                config.setMaximumPoolSize(5);
+                config.setMinimumIdle(2);
+                config.setConnectionTimeout(30000); // 30 seconds
+                config.setIdleTimeout(600000); // 10 minutes
+                config.setMaxLifetime(1800000); // 30 minutes
+                config.setLeakDetectionThreshold(60000); // 1 minute
+
+                // Validate connections
+                config.setConnectionTestQuery("SELECT 1");
+
+                log.info("Creating HikariDataSource with connection pool");
+                return new HikariDataSource(config);
+
             } catch (URISyntaxException e) {
+                log.error("Invalid DATABASE_URL format: {}", e.getMessage());
                 throw new RuntimeException("Invalid DATABASE_URL format", e);
+            } catch (Exception e) {
+                log.error("Failed to create DataSource: {}", e.getMessage());
+                throw new RuntimeException("Failed to create DataSource", e);
             }
         }
 
-        // Fallback to standard Spring Boot configuration
-        // This will use spring.datasource properties from application-prod.yml
-        return DataSourceBuilder
-                .create()
-                .url(System.getenv().getOrDefault("JDBC_DATABASE_URL", "jdbc:postgresql://localhost:5432/book_social_network"))
-                .username(System.getenv().getOrDefault("DATABASE_USERNAME", "username"))
-                .password(System.getenv().getOrDefault("DATABASE_PASSWORD", "password"))
-                .driverClassName("org.postgresql.Driver")
-                .build();
+        // Handle jdbc:postgresql:// format
+        if (databaseUrl.startsWith("jdbc:postgresql://")) {
+            log.info("Using JDBC URL format directly");
+            log.info("JDBC URL: {}", databaseUrl.replaceAll("\\?.*", "?[params]"));
+
+            String username = System.getenv("DATABASE_USERNAME");
+            String password = System.getenv("DATABASE_PASSWORD");
+
+            if (username == null || password == null) {
+                log.error("DATABASE_USERNAME or DATABASE_PASSWORD not set");
+                throw new RuntimeException("DATABASE_USERNAME and DATABASE_PASSWORD required for JDBC URL");
+            }
+
+            return DataSourceBuilder
+                    .create()
+                    .url(databaseUrl)
+                    .username(username)
+                    .password(password)
+                    .driverClassName("org.postgresql.Driver")
+                    .build();
+        }
+
+        log.error("DATABASE_URL format not recognized. Must start with 'postgresql://' or 'jdbc:postgresql://'");
+        log.error("Current value starts with: {}", databaseUrl.substring(0, Math.min(20, databaseUrl.length())));
+        throw new RuntimeException("Invalid DATABASE_URL format");
     }
 }
 
