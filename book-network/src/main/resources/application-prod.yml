@@ -1,6 +1,9 @@
 spring:
   datasource:
-    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/book_social_network}
+    # Render provides DATABASE_URL in postgresql:// format, Spring Boot needs jdbc:postgresql://
+    # If DATABASE_URL starts with postgresql://, we'll handle it in code
+    # Otherwise, use JDBC_DATABASE_URL if provided, or fall back to individual components
+    url: ${JDBC_DATABASE_URL:${DATABASE_URL:jdbc:postgresql://localhost:5432/book_social_network}}
     username: ${DATABASE_USERNAME:username}
     password: ${DATABASE_PASSWORD:password}
     driver-class-name: org.postgresql.Driver

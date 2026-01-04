@@ -396,17 +396,25 @@ docker build -t test .
 
 ### Issue 3: Database Connection Failed
 
-**Error**: `Unable to connect to database`
+**Error**: `Unable to connect to database` or `Driver claims to not accept jdbcUrl`
 
-**Check:**
-1. DATABASE_URL format: `postgresql://user:pass@host:5432/dbname`
-2. Database is in same region as web service
-3. Use **Internal Database URL** (not External)
+**Cause**: DATABASE_URL format issue
 
-**Solution:**
+**Solution**:
+1. Copy the **Internal Database URL** from Render (not External)
+2. Paste it EXACTLY as-is (format: `postgresql://...`)
+3. Do NOT convert to `jdbc:postgresql://` - the app handles this automatically
+4. Make sure you're using Internal URL, not External
+
+**Verify Format**:
 ```bash
-# Verify in Render logs
-Looking for: "HikariPool-1 - Start completed"
+# Correct (from Render):
+DATABASE_URL=postgresql://bookuser:xxxxx@dpg-xxxxx-a.oregon-postgres.render.com:5432/book_social_network
+
+# Also works (manual JDBC format):
+DATABASE_URL=jdbc:postgresql://dpg-xxxxx-a.oregon-postgres.render.com:5432/book_social_network
+DATABASE_USERNAME=bookuser
+DATABASE_PASSWORD=xxxxx
 ```
 
 ---
@@ -456,7 +464,8 @@ SPRING_PROFILES_ACTIVE=prod
 PORT=8088
 JAVA_TOOL_OPTIONS=-Xmx400m -Xms400m
 
-# Database
+# Database (paste EXACTLY as provided by Render - starts with postgresql://)
+# The application will automatically convert to JDBC format
 DATABASE_URL=postgresql://user:pass@host.oregon-postgres.render.com:5432/book_social_network
 
 # Email
