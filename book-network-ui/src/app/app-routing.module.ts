@@ -8,7 +8,7 @@ import {ActivateAccountComponent} from './pages/activate-account/activate-accoun
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'books',
+    redirectTo: 'login',
     pathMatch: 'full'
   },
   {

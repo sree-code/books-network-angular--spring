@@ -1,8 +1,7 @@
 export const environment = {
   production: true,
-  // Update these URLs after deploying backend and Keycloak
-  apiUrl: 'https://your-backend.railway.app/api/v1',
-  keycloakUrl: 'https://your-keycloak-instance.com',
+  apiUrl: 'https://book-social-network-api-wkiu.onrender.com/api/v1',
+  keycloakUrl: 'http://localhost:9090', // Keycloak not set up yet - using localhost
   keycloakRealm: 'book-social-network',
   keycloakClientId: 'book-social-network-client'
 };
